@@ -927,6 +927,115 @@ constructor(props) {
 
 `componentWillUnmount()` - is invoked immediately before a component is unmounted and destroyed. Useful for resource cleanup.
 
+### Vue.js
+
+#### beforeCreate
+
+Called synchronously immediately after the instance has been initialized, before data observation and event/watcher setup.
+
+```javascript
+new Vue({
+  beforeCreate: function () {
+    // `this` points to the vm instance
+    console.log('this method called before instance created')
+  }
+})
+```
+
+#### created
+
+Called synchronously after the instance is created. At this stage, the instance has finished processing the options which means the following have been set up: data observation, computed properties, methods, watch/event callbacks. However, the mounting phase has not been started, and the $el property will not be available yet.
+
+```javascript
+new Vue({
+  created: function () {
+    // `this` points to the vm instance
+    console.log('this method called after instance created')
+  }
+})
+```
+
+#### beforeMount
+
+Called right before the mounting begins: the render function is about to be called for the first time.
+
+__This hook is not called during server-side rendering.__
+
+```javascript
+new Vue({
+  beforeMount: function () {
+    // `this` points to the vm instance
+    console.log('this method called before mounting an instance')
+  }
+})
+```
+
+#### mounted
+
+Called after the instance has been mounted, where `el` is replaced by the newly created `vm.$el`. If the root instance is mounted to an in-document element, vm.$el will also be in-document when `mounted` is called.
+
+Note that `mounted` does not guarantee that all child components have also been mounted. If you want to wait until the entire view has been rendered, you can use `vm.$nextTick` inside of mounted:
+
+```javascript
+new Vue({
+  mounted: function () {
+    this.$nextTick(function () {
+      // Code that will run only after the
+      // entire view has been rendered
+    })
+  }
+})
+```
+
+#### beforeUpdate
+
+Called when the data changes, before the virtual DOM is re-rendered and patched.
+
+You can perform further state changes in this hook and they will not trigger additional re-renders.
+
+__This hook is not called during server-side rendering.__
+
+#### updated
+
+Called after a data change causes the virtual DOM to be re-rendered and patched.
+
+The component’s DOM will have been updated when this hook is called, so you can perform DOM-dependent operations here. However, in most cases you should avoid changing state inside the hook.
+
+Note that `updated` does not guarantee that all child components have also been re-rendered. If you want to wait until the entire view has been re-rendered, you can use `vm.$nextTick` inside of `updated`:
+
+```javascript
+updated: function () {
+  this.$nextTick(function () {
+    // Code that will run only after the
+    // entire view has been re-rendered
+  })
+}
+```
+
+#### activated
+
+Called when a kept-alive component is activated.
+
+__This hook is not called during server-side rendering.__
+
+#### deactivated
+
+Called when a kept-alive component is deactivated.
+
+__This hook is not called during server-side rendering.__
+
+#### beforeDestroy
+
+Called right before a Vue instance is destroyed. At this stage the instance is still fully functional.
+
+__This hook is not called during server-side rendering.__
+
+#### destroyed
+
+Called after a Vue instance has been destroyed. When this hook is called, all directives of the Vue instance have been unbound, all event listeners have been removed, and all child Vue instances have also been destroyed.
+
+__This hook is not called during server-side rendering.__
+
 # Conditional rendering
 
 ### AngularJS
